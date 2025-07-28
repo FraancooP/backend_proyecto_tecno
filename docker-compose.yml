@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: contenedor_web
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: franco123
+    ports:
+      - "5433:5432"  # Ajusta según el puerto que uses
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
