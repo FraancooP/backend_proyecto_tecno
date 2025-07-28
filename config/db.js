@@ -1,9 +1,23 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-// Aquí debes usar el nombre de la base de datos que desees crear o usar
-const sequelize = new Sequelize('base_web', 'postgres', 'franco123', {
-  host: 'localhost', // Si estás trabajando localmente y el contenedor de Docker está en el mismo equipo
-  dialect: 'postgres',
-  port: 5433,  // Asegúrate de que el puerto esté configurado correctamente (5433 en este caso por tu docker-compose.yml)
-});
+// Configuración para Railway (producción) o local (desarrollo)
+const sequelize = new Sequelize(
+  process.env.PGDATABASE || 'base_web',
+  process.env.PGUSER || 'postgres', 
+  process.env.PGPASSWORD || 'franco123',
+  {
+    host: process.env.PGHOST || 'localhost',
+    dialect: 'postgres',
+    port: process.env.PGPORT || 5433,
+    dialectOptions: process.env.NODE_ENV === 'production' ? {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    } : {},
+    logging: process.env.NODE_ENV === 'production' ? false : console.log
+  }
+);
+
 module.exports = sequelize;

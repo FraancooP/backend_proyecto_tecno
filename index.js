@@ -15,12 +15,17 @@ process.on('unhandledRejection', (reason, promise) => {
 
 console.log('Iniciando sincronización de base de datos...');
 
-sequelize.sync({ alter: true }) // usar { alter: false } en producción
+// En producción usar force: false y alter: false
+const syncOptions = process.env.NODE_ENV === 'production' 
+  ? { force: false, alter: false } 
+  : { alter: true };
+
+sequelize.sync(syncOptions)
   .then(async () => {
     console.log('Base de datos sincronizada correctamente');
     // Iniciar servidor
     app.listen(PORT, () => {
-      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`Servidor corriendo en puerto ${PORT}`);
     });
   })
   .catch((error) => {
