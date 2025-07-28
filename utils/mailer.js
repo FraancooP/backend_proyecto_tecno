@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendVerificationEmail = async (to, token) => {
-  const verificationUrl = `http://localhost:3000/verify-email?token=${token}`;
+  const verificationUrl = `https://backendproyectotecno-production.up.railway.app/verify-email?token=${token}`;
   const mailOptions = {
     from: 'francoheredia2011@gmail.com',
     to,
@@ -35,7 +35,7 @@ const sendVerificationEmail = async (to, token) => {
 
 // ...existing code...
 const sendResetPasswordEmail = async (to, token) => {
-  const link = `http://localhost:3000/reset-password?token=${token}`; // Ajusta la URL según tu frontend
+  const link = `https://backendproyectotecno-production.up.railway.app/reset-password?token=${token}`; // Ajusta la URL según tu frontend
   const mailOptions = {
     from: 'francoheredia2011@gmail.com',
     to,
